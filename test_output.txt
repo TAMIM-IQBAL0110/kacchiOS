@@ -1,0 +1,144 @@
+kacchiOS TEST SUITE
+--- MEMORY MANAGER TESTS ---
+[MEMORY] Memory allocator initialized
+[PASS] Memory allocation returns non-zero address
+[PASS] Second memory allocation succeeds
+[PASS] Third memory allocation succeeds
+[PASS] Different allocations have different addresses
+[PASS] Different allocations have different addresses
+[MEMORY] ERROR: Zero-size allocation requested
+[PASS] Zero-size allocation returns 0
+[PASS] Memory can be reused after deallocation
+
+--- MEMORY DEALLOCATION TESTS ---
+[MEMORY] Memory allocator initialized
+[PASS] Process 1: First allocation
+[PASS] Process 1: Second allocation
+[PASS] Process 2: First allocation
+[MEMORY] Freed 1536 bytes across 2 blocks for process 1
+[PASS] Memory freed for process 1 can be reused
+
+--- PROCESS MANAGER TESTS ---
+[PROCESS] Process manager initialized
+[PASS] Process creation returns valid PID
+[PASS] Second process created
+[PASS] Third process created
+[PASS] Different processes have different PIDs
+[PASS] Different processes have different PIDs
+
+--- PROCESS STATE TRANSITION TESTS ---
+[PROCESS] Process manager initialized
+[PASS] New process starts in READY state
+[PASS] Process can transition to CURRENT state
+[PASS] Process can transition to READY state
+[PASS] Process can transition to TERMINATED state
+
+--- PROCESS TERMINATION TESTS ---
+[PROCESS] Process manager initialized
+[PASS] Process PCB exists after creation
+[MEMORY] Freed 36864 bytes across 6 blocks for process 1
+[PROCESS] Process 1 terminated
+[PASS] Terminated process has TERMINATED state
+
+--- PROCESS PCB RETRIEVAL TESTS ---
+[PROCESS] Process manager initialized
+[PASS] Can retrieve PCB by valid PID
+[PASS] Retrieved PCB has correct PID
+[PASS] Retrieved PCB has correct priority
+[PASS] Retrieved PCB has valid stack size
+
+--- SCHEDULER TESTS ---
+[SCHEDULER] Scheduler initialized with FCFS algorithm
+[PASS] Scheduler initialized with FCFS
+[SCHEDULER] Scheduler initialized with Round Robin algorithm (10ms)
+[PASS] Scheduler initialized with Round Robin
+
+--- SCHEDULER PROCESS SELECTION TESTS ---
+[PROCESS] Process manager initialized
+[SCHEDULER] Scheduler initialized with FCFS algorithm
+[PASS] Scheduler returns a process
+[PASS] Scheduler selects process using FCFS order
+
+--- SCHEDULER TIME UPDATE TESTS ---
+[SCHEDULER] Scheduler initialized with Round Robin algorithm (10ms)
+[PASS] Scheduler time can be updated
+[PASS] Scheduler update_time executes without error
+
+--- SCHEDULER AGING TESTS ---
+[PROCESS] Process manager initialized
+[SCHEDULER] Scheduler initialized with Round Robin algorithm (10ms)
+[PASS] Process created for aging test
+[PASS] Scheduler aging applied without error
+
+--- INTEGRATION TESTS ---
+[MEMORY] Memory allocator initialized
+[PROCESS] Process manager initialized
+[SCHEDULER] Scheduler initialized with Round Robin algorithm (10ms)
+[PASS] Multiple processes created successfully
+[PASS] Scheduler selects first process
+[PASS] Process state changed to CURRENT
+[MEMORY] Freed 12288 bytes across 2 blocks for process 1
+[PROCESS] Process 1 terminated
+[PASS] Process terminated successfully
+
+--- STRESS TESTS ---
+[PROCESS] Process manager initialized
+[PASS] Stress: 50 processes created
+[MEMORY] Freed 12288 bytes across 2 blocks for process 1
+[PROCESS] Process 1 terminated
+[MEMORY] Freed 24576 bytes across 4 blocks for process 2
+[PROCESS] Process 2 terminated
+[MEMORY] Freed 24576 bytes across 4 blocks for process 3
+[PROCESS] Process 3 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 4
+[PROCESS] Process 4 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 5
+[PROCESS] Process 5 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 6
+[PROCESS] Process 6 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 7
+[PROCESS] Process 7 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 8
+[PROCESS] Process 8 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 9
+[PROCESS] Process 9 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 10
+[PROCESS] Process 10 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 11
+[PROCESS] Process 11 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 12
+[PROCESS] Process 12 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 13
+[PROCESS] Process 13 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 14
+[PROCESS] Process 14 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 15
+[PROCESS] Process 15 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 16
+[PROCESS] Process 16 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 17
+[PROCESS] Process 17 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 18
+[PROCESS] Process 18 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 19
+[PROCESS] Process 19 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 20
+[PROCESS] Process 20 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 21
+[PROCESS] Process 21 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 22
+[PROCESS] Process 22 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 23
+[PROCESS] Process 23 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 24
+[PROCESS] Process 24 terminated
+[MEMORY] Freed 12288 bytes across 2 blocks for process 25
+[PROCESS] Process 25 terminated
+[PASS] Stress test: Multiple process creation and termination
+
+TEST SUMMARY
+Tests Run:    40
+Tests Passed: 40
+Tests Failed: 0
+ALL TESTS PASSED!
+Tests completed. Halting system...

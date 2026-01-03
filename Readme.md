@@ -16,14 +16,17 @@ kacchiOS is a simple, bare-metal operating system built from scratch for educati
 - ✅ **Serial I/O driver** (COM1) - Communication via serial port
 - ✅ **Null process** - Single process that reads and echoes input
 - ✅ **Basic string utilities** - Essential string operations
+- ✅ **Memory Manager** - Stack and heap allocation/deallocation
+- ✅ **Process Manager** - Process creation, termination, state transitions
+- ✅ **Scheduler** - FCFS and Round Robin scheduling with aging
+- ✅ **Context Switching** - Process context management
 - ✅ **Clean, documented code** - Easy to understand and extend
 
-### Future Extensions (Student Assignments)
+### Implemented Components (Lab Assignment)
 
-Students will extend kacchiOS by implementing:
-- 📝 **Memory Manager**
-- 📝 **Process Manager**
-- 📝 **Scheduler**
+✅ **Memory Manager** - Allocates and deallocates memory for processes
+✅ **Process Manager** - Manages process lifecycle (creation, termination, state)
+✅ **Scheduler** - Schedules processes with configurable algorithms
 
 ## 🚀 Quick Start
 
@@ -72,17 +75,92 @@ Type something and press Enter - it will echo back!
 
 ```
 kacchiOS/
-├── boot.S          # Bootloader entry point (Assembly)
-├── kernel.c        # Main kernel (null process)
-├── serial.c        # Serial port driver (COM1)
-├── serial.h        # Serial driver interface
-├── string.c        # String utility functions
-├── string.h        # String utility interface
-├── types.h         # Basic type definitions
-├── io.h            # I/O port operations
-├── link.ld         # Linker script
-├── Makefile        # Build system
-└── README.md       # This file
+├── src/
+│   ├── boot.S           # Bootloader entry point (Assembly)
+│   ├── kernel.c         # Main kernel (null process)
+│   ├── serial.c         # Serial port driver (COM1)
+│   ├── serial.h         # Serial driver interface
+│   ├── string.c         # String utility functions
+│   ├── string.h         # String utility interface
+│   ├── types.h          # Basic type definitions
+│   ├── io.h             # I/O port operations
+│   ├── memory.c         # Memory manager implementation
+│   ├── memory.h         # Memory manager interface
+│   ├── process.c        # Process manager implementation
+│   ├── process.h        # Process manager interface
+│   ├── scheduler.c      # Scheduler implementation
+│   ├── scheduler.h      # Scheduler interface
+│   ├── link.ld          # Linker script
+│   └── Makefile         # Build system
+└── docs/
+    ├── IMPLEMENTATION.md # Implementation details
+    └── CHECKLIST.md     # Checklist status
+```
+
+## 🔑 Key Components
+
+### Memory Manager (memory.c/h)
+
+Provides heap-based memory allocation for processes.
+
+**Features:**
+- Stack allocation during process creation
+- Dynamic heap allocation (`memory_allocate()`)
+- Memory block tracking and deallocation
+- Memory status reporting (`memory_print_status()`)
+
+**Example Usage:**
+```c
+memory_init();
+uint32_t addr = memory_allocate(1024, process_id);
+memory_free(addr);
+memory_free_process(process_id);  // Free all process memory
+```
+
+### Process Manager (process.c/h)
+
+Manages the complete lifecycle of processes.
+
+**Features:**
+- Process table (up to 256 processes)
+- Process creation with memory allocation
+- State management (TERMINATED, READY, CURRENT)
+- Process termination and cleanup
+- CPU context switching support
+
+**Process States:**
+```
+TERMINATED ← CURRENT ↔ READY
+```
+
+**Example Usage:**
+```c
+process_init();
+uint32_t pid = process_create(10, 0x1000, 0x2000);  // priority, stack, heap
+process_set_state(pid, READY);
+process_terminate(pid);
+```
+
+### Scheduler (scheduler.c/h)
+
+Implements process scheduling algorithms.
+
+**Algorithms:**
+- **FCFS** (First Come First Served) - Simple priority-based scheduling
+- **Round Robin with Aging** - Time-sliced scheduling with starvation prevention
+
+**Features:**
+- Configurable time quantum for Round Robin
+- Aging mechanism to boost long-waiting processes
+- Context switching between processes
+- Time tracking and scheduling decisions
+
+**Example Usage:**
+```c
+scheduler_init(RR, 10);  // Round Robin with 10ms quantum
+scheduler_get_next_process();
+scheduler_context_switch(from_pid, to_pid);
+scheduler_update_time();  // Called from timer interrupt
 ```
 
 ## 🛠️ Build System

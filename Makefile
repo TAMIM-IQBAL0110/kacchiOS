@@ -8,11 +8,15 @@ CFLAGS = -m32 -ffreestanding -O2 -Wall -Wextra -nostdinc \
 ASFLAGS = --32
 LDFLAGS = -m elf_i386
 
-OBJS = boot.o kernel.o serial.o string.o
+OBJS = boot.o kernel.o serial.o string.o memory.o process.o scheduler.o
+TEST_OBJS = boot.o test_kernel.o serial.o string.o memory.o process.o scheduler.o test_suite.o
 
 all: kernel.elf
 
 kernel.elf: $(OBJS)
+	$(LD) $(LDFLAGS) -T link.ld -o $@ $^
+
+test_kernel.elf: $(TEST_OBJS)
 	$(LD) $(LDFLAGS) -T link.ld -o $@ $^
 
 %.o: %.c
@@ -24,6 +28,10 @@ kernel.elf: $(OBJS)
 run: kernel.elf
 	qemu-system-i386 -kernel kernel.elf -m 64M -serial stdio -display none
 
+test: test_kernel.elf
+	@echo "Running kacchiOS test suite..."
+	@timeout 5 qemu-system-i386 -kernel test_kernel.elf -m 64M -serial stdio -display none 2>&1 || true
+
 run-vga: kernel.elf
 	qemu-system-i386 -kernel kernel.elf -m 64M -serial mon:stdio
 
@@ -33,6 +41,6 @@ debug: kernel.elf
 	@echo "In another terminal run: gdb -ex 'target remote localhost:1234' -ex 'symbol-file kernel.elf'"
 
 clean:
-	rm -f *.o kernel.elf
+	rm -f *.o kernel.elf test_kernel.elf
 
-.PHONY: all run run-vga debug clean
+.PHONY: all run test run-vga debug clean
